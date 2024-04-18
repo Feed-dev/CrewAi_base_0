@@ -1,5 +1,6 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from langchain_groq import ChatGroq
 
 # Uncomment the following line to use an example of a custom tool
 # from crewai_1.tools.custom_tool import MyCustomTool
@@ -7,16 +8,21 @@ from crewai.project import CrewBase, agent, crew, task
 # Check our tools documentations for more information on how to use them
 # from crewai_tools import SerperDevTool
 
+
 @CrewBase
 class Crewai1Crew():
 	"""Crewai1 crew"""
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 
+	def __init__(self) -> None:
+		self.groq_llm = ChatGroq(temperature=0, groq_api_key="YOUR_API_KEY", model_name="mixtral-8x7b-32768")
+
 	@agent
 	def researcher(self) -> Agent:
 		return Agent(
 			config=self.agents_config['researcher'],
+			llm=self.groq_llm,
 			# tools=[MyCustomTool()], # Example of custom tool, loaded on the beginning of file
 			verbose=True
 		)
@@ -25,6 +31,7 @@ class Crewai1Crew():
 	def reporting_analyst(self) -> Agent:
 		return Agent(
 			config=self.agents_config['reporting_analyst'],
+			llm=self.groq_llm,
 			verbose=True
 		)
 

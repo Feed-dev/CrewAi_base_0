@@ -1,5 +1,8 @@
-#!/usr/bin/env python
-from crewai_1.crew import Crewai1Crew
+from dotenv import load_dotenv
+import os
+from crew import Crewai1Crew
+
+load_dotenv()
 
 
 def run():
@@ -8,3 +11,7 @@ def run():
         'topic': 'AI LLMs'
     }
     Crewai1Crew().crew().kickoff(inputs=inputs)
+
+
+if __name__ == '__main__':
+    run()
