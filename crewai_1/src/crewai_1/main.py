@@ -1,8 +1,5 @@
 from dotenv import load_dotenv
-import os
-from crew import Crewai1Crew
-
-load_dotenv()
+from crewai_1.crew import Crewai1Crew
 
 
 def run():

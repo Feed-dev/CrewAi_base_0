@@ -1,6 +1,8 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from langchain_groq import ChatGroq
+import os
+groq_api_key = os.getenv('GROQ_API_KEY')
 
 # Uncomment the following line to use an example of a custom tool
 # from crewai_1.tools.custom_tool import MyCustomTool
@@ -16,7 +18,7 @@ class Crewai1Crew():
 	tasks_config = 'config/tasks.yaml'
 
 	def __init__(self) -> None:
-		self.groq_llm = ChatGroq(temperature=0, groq_api_key="YOUR_API_KEY", model_name="mixtral-8x7b-32768")
+		self.groq_llm = ChatGroq(temperature=0, groq_api_key=groq_api_key, model_name="mixtral-8x7b-32768")
 
 	@agent
 	def researcher(self) -> Agent:
