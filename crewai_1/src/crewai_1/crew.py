@@ -18,7 +18,7 @@ class Crewai1Crew():
 	tasks_config = 'config/tasks.yaml'
 
 	def __init__(self) -> None:
-		self.groq_llm = ChatGroq(temperature=0, groq_api_key=groq_api_key, model_name="mixtral-8x7b-32768")
+		self.groq_llm = ChatGroq(temperature=0, groq_api_key=groq_api_key, model_name="llama3-70b-8192")
 
 	@agent
 	def researcher(self) -> Agent:
