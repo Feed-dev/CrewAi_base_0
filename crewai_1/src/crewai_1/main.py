@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 from crewai_1.crew import Crewai1Crew
 
 

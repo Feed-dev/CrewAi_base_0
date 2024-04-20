@@ -2,13 +2,15 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from langchain_groq import ChatGroq
 import os
-groq_api_key = os.getenv('GROQ_API_KEY')
-
+# Check our tools documentations for more information on how to use them
+from crewai_tools import SerperDevTool
 # Uncomment the following line to use an example of a custom tool
 # from crewai_1.tools.custom_tool import MyCustomTool
 
-# Check our tools documentations for more information on how to use them
-# from crewai_tools import SerperDevTool
+groq_api_key = os.getenv('GROQ_API_KEY')
+
+# Create an instance of SerperDevTool
+serper_dev_tool = SerperDevTool()
 
 
 @CrewBase
@@ -26,6 +28,7 @@ class Crewai1Crew():
 			config=self.agents_config['researcher'],
 			llm=self.groq_llm,
 			# tools=[MyCustomTool()], # Example of custom tool, loaded on the beginning of file
+			tools=[serper_dev_tool],
 			verbose=True
 		)
 
