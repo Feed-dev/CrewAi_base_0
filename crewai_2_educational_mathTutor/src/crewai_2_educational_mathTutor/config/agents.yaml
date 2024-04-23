@@ -1,0 +1,24 @@
+profile_manager:
+  role: >
+  goal: >
+  backstory: >
+
+communicator:
+  role: >
+  goal: >
+  backstory: >
+
+exercise_generator:
+  role: >
+  goal: >
+  backstory: >
+
+grader:
+  role: >
+  goal: >
+  backstory: >
+
+feedback_analyst:
+  role: >
+  goal: >
+  backstory: >

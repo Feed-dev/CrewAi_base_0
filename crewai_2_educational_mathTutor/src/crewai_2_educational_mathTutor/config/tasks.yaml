@@ -1,0 +1,19 @@
+profile_task:
+  description: >
+  expected_output: >
+
+communication_task:
+  description: >
+  expected_output: >
+
+exercise_task:
+  description: >
+  expected_output: >
+
+grading_task:
+  description: >
+  expected_output: >
+
+feedback_task:
+  description: >
+  expected_output: >
