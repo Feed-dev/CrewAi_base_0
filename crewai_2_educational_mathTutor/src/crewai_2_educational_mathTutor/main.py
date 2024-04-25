@@ -5,7 +5,7 @@ from crewai_2_educational_mathTutor.src.crewai_2_educational_mathTutor.crew impo
 def run():
     # Replace with your inputs, it will automatically interpolate any tasks and agents information
     inputs = {
-        'topic': 'AI LLMs'
+        'topic': input("Enter the topic for the exercise: "),
     }
     MathTutor().crew().kickoff(inputs=inputs)
 

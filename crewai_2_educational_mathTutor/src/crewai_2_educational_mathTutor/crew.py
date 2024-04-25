@@ -8,8 +8,6 @@ from crewai_tools import SerperDevTool
 from crewai_2_educational_mathTutor.src.crewai_2_educational_mathTutor.tools.custom_tool import DatabaseTool, \
     SpeechTool, EducationalTool, ExerciseCreatorTool, SolutionCheckerTool
 
-# Uncomment the following line to use an example of a custom tool
-# from crewai_1.tools.custom_tool import MyCustomTool
 
 groq_api_key = os.getenv('GROQ_API_KEY')
 
