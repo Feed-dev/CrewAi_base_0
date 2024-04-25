@@ -1,19 +1,29 @@
-profile_task:
-  description: >
-  expected_output: >
+profile_creation:
+    description: >
+      Gather initial data from the learner and analyze it to create a comprehensive learner profile that adjusts for age and learning style.
+    expected_output: >
+      A detailed profile that will guide the generation and selection of exercises tailored to the learner's needs.
 
-communication_task:
-  description: >
-  expected_output: >
+exercise_generation:
+    description: >
+      Generate math exercises that cater to the difficulty level and topics suitable for the learner's age and profile.
+    expected_output: >
+      A diverse set of age-appropriate math exercises, ready for selection and testing.
 
-exercise_task:
-  description: >
-  expected_output: >
+exercise_selection_composition:
+    description: >
+      Select from the generated exercises and compose them into a coherent test format, ensuring a balanced coverage of necessary math topics.
+    expected_output: >
+      A composed math test, ready for the learner to solve, formatted appropriately for easy understanding and engagement.
 
-grading_task:
-  description: >
-  expected_output: >
+answer_evaluation:
+    description: >
+      Check the answers provided by the learner, evaluate their performance, and provide detailed feedback on each response.
+    expected_output: >
+      Detailed feedback and scores for the learner's test responses, highlighting areas of strength and suggestions for improvement.
 
-feedback_task:
-  description: >
-  expected_output: >
+report_filing:
+    description: >
+      Compile the results of the evaluation into a detailed report that summarizes the learner's performance, provides insights into their learning progress, and offers recommendations for future learning activities.
+    expected_output: >
+      A comprehensive report detailing the learner’s performance, with insights and recommendations formatted as markdown without using '```'.
