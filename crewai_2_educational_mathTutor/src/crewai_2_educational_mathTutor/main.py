@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from crewai_2_educational_mathTutor.src.crewai_2_educational_mathTutor.crew import MathTutor
+from crewai_2_educational_mathTutor.src.crewai_2_educational_mathTutor.crew import MathTutorCrew
 
 
 def run():
@@ -7,7 +7,7 @@ def run():
     inputs = {
         'topic': input("Enter the topic for the exercise: "),
     }
-    MathTutor().crew().kickoff(inputs=inputs)
+    MathTutorCrew().crew().kickoff(inputs=inputs)
 
 
 if __name__ == '__main__':
