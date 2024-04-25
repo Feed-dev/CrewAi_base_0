@@ -1,30 +1,24 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from langchain_groq import ChatGroq
 import os
-# Check our tools documentations for more information on how to use them
-from crewai_tools import SerperDevTool
 
-from crewai_2_educational_mathTutor.src.crewai_2_educational_mathTutor.tools.custom_tool import DatabaseTool, \
-    SpeechTool, EducationalTool, ExerciseCreatorTool, SolutionCheckerTool
+# Check tools documentation for more information on how to use them
+from crewai_tools import ProfilerTool, MathExTool, TestComposerTool, AnswerCheckerTool, ReportFilerTool
+from langchain_groq import ChatGroq
 
+# Initialize tools
+profiler_tool = ProfilerTool()
+math_ex_tool = MathExTool()
+test_composer_tool = TestComposerTool()
+answer_checker_tool = AnswerCheckerTool()
+report_filer_tool = ReportFilerTool()
 
 groq_api_key = os.getenv('GROQ_API_KEY')
 
-# Create an instance of SerperDevTool
-serper_dev_tool = SerperDevTool()
-
-# Initialize tools
-db_tool = DatabaseTool()
-speech_tool = SpeechTool()
-education_tool = EducationalTool()
-exercise_tool = ExerciseCreatorTool()
-solution_tool = SolutionCheckerTool()
-
 
 @CrewBase
-class MathTutor():
-    """MathTutor crew"""
+class MathTutorCrew:
+    """Math Tutor Crew for educating children aged 5 to 12."""
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
@@ -32,92 +26,91 @@ class MathTutor():
         self.groq_llm = ChatGroq(temperature=0, groq_api_key=groq_api_key, model_name="llama3-70b-8192")
 
     @agent
-    def profile_manager(self) -> Agent:
+    def profiler_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['profile_manager'],
+            config=agents_config['profiler_agent'],
             llm=self.groq_llm,
-            tools=[db_tool],
+            tools=[profiler_tool],
             verbose=True
         )
 
     @agent
-    def communicator(self) -> Agent:
+    def exercise_generator_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['communicator'],
+            config=agents_config['exercise_generator_agent'],
             llm=self.groq_llm,
-            tools=[speech_tool],
+            tools=[math_ex_tool],
             verbose=True
         )
 
     @agent
-    def exercise_generator(self) -> Agent:
+    def selector_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['exercise_generator'],
+            config=agents_config['selector_agent'],
             llm=self.groq_llm,
-            tools=[education_tool],
+            tools=[test_composer_tool],
             verbose=True
         )
 
     @agent
-    def grader(self) -> Agent:
+    def evaluator_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['grader'],
+            config=agents_config['evaluator_agent'],
             llm=self.groq_llm,
-            tools=[education_tool],
+            tools=[answer_checker_tool],
             verbose=True
         )
 
     @agent
-    def feedback_analyst(self) -> Agent:
+    def report_filer_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['feedback_analyst'],
+            config=agents_config['report_filer_agent'],
             llm=self.groq_llm,
-            tools=[db_tool],
+            tools=[report_filer_tool],
             verbose=True
         )
 
     @task
-    def profile_task(self) -> Task:
+    def profile_creation_task(self) -> Task:
         return Task(
-            config=self.tasks_config['profile_task'],
-            agent=self.profile_manager()
+            config=tasks_config['profile_creation'],
+            agent=self.profiler_agent()
         )
 
     @task
-    def communication_task(self) -> Task:
+    def exercise_generation_task(self) -> Task:
         return Task(
-            config=self.tasks_config['communication_task'],
-            agent=self.communicator(),
+            config=tasks_config['exercise_generation'],
+            agent=self.exercise_generator_agent()
         )
 
     @task
-    def exercise_task(self) -> Task:
+    def exercise_selection_composition_task(self) -> Task:
         return Task(
-            config=self.tasks_config['exercise_task'],
-            agent=self.exercise_generator(),
+            config=tasks_config['exercise_selection_composition'],
+            agent=self.selector_agent()
         )
 
     @task
-    def grading_task(self) -> Task:
+    def answer_evaluation_task(self) -> Task:
         return Task(
-            config=self.tasks_config['grading_task'],
-            agent=self.grader(),
+            config=tasks_config['answer_evaluation'],
+            agent=self.evaluator_agent()
         )
 
     @task
-    def feedback_task(self) -> Task:
+    def report_filing_task(self) -> Task:
         return Task(
-            config=self.tasks_config['feedback_task'],
-            agent=self.feedback_analyst(),
+            config=tasks_config['report_filing'],
+            agent=self.report_filer_agent()
         )
 
     @crew
     def crew(self) -> Crew:
-        """Creates the Crewai1 crew"""
+        """Create and manage the math tutoring crew."""
         return Crew(
             agents=self.agents,  # Automatically created by the @agent decorator
             tasks=self.tasks,  # Automatically created by the @task decorator
             process=Process.sequential,
-            verbose=2,
-            # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
+            verbose=True
         )
