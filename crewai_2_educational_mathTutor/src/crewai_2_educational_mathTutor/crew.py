@@ -1,17 +1,17 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from langchain_groq import ChatGroq
 import os
 
 # Check tools documentation for more information on how to use them
-from crewai_tools import ProfilerTool, MathExTool, TestComposerTool, AnswerCheckerTool, ReportFilerTool
-from langchain_groq import ChatGroq
+from .tools.math_ex import MathExTool
 
 # Initialize tools
-profiler_tool = ProfilerTool()
+# profiler_tool = ProfilerTool()
 math_ex_tool = MathExTool()
-test_composer_tool = TestComposerTool()
-answer_checker_tool = AnswerCheckerTool()
-report_filer_tool = ReportFilerTool()
+# test_composer_tool = TestComposerTool()
+# answer_checker_tool = AnswerCheckerTool()
+# report_filer_tool = ReportFilerTool()
 
 groq_api_key = os.getenv('GROQ_API_KEY')
 
@@ -28,16 +28,16 @@ class MathTutorCrew:
     @agent
     def profiler_agent(self) -> Agent:
         return Agent(
-            config=agents_config['profiler_agent'],
+            config=self.agents_config['profiler_agent'],
             llm=self.groq_llm,
-            tools=[profiler_tool],
+            # tools=[profiler_tool],
             verbose=True
         )
 
     @agent
     def exercise_generator_agent(self) -> Agent:
         return Agent(
-            config=agents_config['exercise_generator_agent'],
+            config=self.agents_config['exercise_generator_agent'],
             llm=self.groq_llm,
             tools=[math_ex_tool],
             verbose=True
@@ -46,62 +46,62 @@ class MathTutorCrew:
     @agent
     def selector_agent(self) -> Agent:
         return Agent(
-            config=agents_config['selector_agent'],
+            config=self.agents_config['selector_agent'],
             llm=self.groq_llm,
-            tools=[test_composer_tool],
+            # tools=[test_composer_tool],
             verbose=True
         )
 
     @agent
     def evaluator_agent(self) -> Agent:
         return Agent(
-            config=agents_config['evaluator_agent'],
+            config=self.agents_config['evaluator_agent'],
             llm=self.groq_llm,
-            tools=[answer_checker_tool],
+            # tools=[answer_checker_tool],
             verbose=True
         )
 
     @agent
     def report_filer_agent(self) -> Agent:
         return Agent(
-            config=agents_config['report_filer_agent'],
+            config=self.agents_config['report_filer_agent'],
             llm=self.groq_llm,
-            tools=[report_filer_tool],
+            # tools=[report_filer_tool],
             verbose=True
         )
 
     @task
     def profile_creation_task(self) -> Task:
         return Task(
-            config=tasks_config['profile_creation'],
+            config=self.tasks_config['profile_creation'],
             agent=self.profiler_agent()
         )
 
     @task
     def exercise_generation_task(self) -> Task:
         return Task(
-            config=tasks_config['exercise_generation'],
+            config=self.tasks_config['exercise_generation'],
             agent=self.exercise_generator_agent()
         )
 
     @task
     def exercise_selection_composition_task(self) -> Task:
         return Task(
-            config=tasks_config['exercise_selection_composition'],
+            config=self.tasks_config['exercise_selection_composition'],
             agent=self.selector_agent()
         )
 
     @task
     def answer_evaluation_task(self) -> Task:
         return Task(
-            config=tasks_config['answer_evaluation'],
+            config=self.tasks_config['answer_evaluation'],
             agent=self.evaluator_agent()
         )
 
     @task
     def report_filing_task(self) -> Task:
         return Task(
-            config=tasks_config['report_filing'],
+            config=self.tasks_config['report_filing'],
             agent=self.report_filer_agent()
         )
 
