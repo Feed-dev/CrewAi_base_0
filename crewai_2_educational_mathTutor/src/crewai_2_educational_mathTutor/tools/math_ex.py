@@ -4,8 +4,8 @@ import random
 
 
 class MathExTool(BaseTool):
-    name = "Math Problem Generator Tool"
-    description = "Generates addition math problems and returns them in LaTeX format along with solutions."
+    name: str = "Math Problem Generator Tool"
+    description: str = "Generates addition math problems and returns them in LaTeX format along with solutions."
 
     def _run(self, level: str) -> dict:
         """Generates an addition problem based on the specified difficulty level.
