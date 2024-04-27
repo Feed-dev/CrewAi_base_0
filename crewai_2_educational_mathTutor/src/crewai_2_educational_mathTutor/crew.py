@@ -4,11 +4,13 @@ from langchain_groq import ChatGroq
 import os
 
 # Check tools documentation for more information on how to use them
-from .tools.math_ex import MathExTool
+from .tools.level1_math import Level1Math
+from .tools.user_input_tool import UserInputTool
 
 # Initialize tools
 # profiler_tool = ProfilerTool()
-math_ex_tool = MathExTool()
+math_ex_tool = Level1Math()
+user_input_tool = UserInputTool()
 # test_composer_tool = TestComposerTool()
 # answer_checker_tool = AnswerCheckerTool()
 # report_filer_tool = ReportFilerTool()
@@ -35,11 +37,12 @@ class MathTutorCrew:
     #     )
 
     @agent
-    def exercise_generator_agent(self) -> Agent:
+    def tutor_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['exercise_generator_agent'],
+            config=self.agents_config['Tutor_agent'],
             llm=self.groq_llm,
-            tools=[math_ex_tool],
+            memory=False,
+            max_iter=1,
             verbose=True
         )
 
@@ -82,29 +85,26 @@ class MathTutorCrew:
     @task
     def exercise_generation_task(self) -> Task:
         return Task(
-            # id='exercise_generation',
             config=self.tasks_config['exercise_generation'],
-            agent=self.exercise_generator_agent(),
-            next_task='exercise_selection_composition'
+            agent=self.tutor_agent(),
+            tools=[math_ex_tool]
         )
 
-    # @task
-    # def exercise_selection_composition_task(self) -> Task:
-    #     return Task(
-    #         id='exercise_selection_composition',
-    #         config=self.tasks_config['exercise_selection_composition'],
-    #         agent=self.selector_agent(),
-    #         # next_task=''
-    #     )
-    #
-    # @task
-    # def answer_evaluation_task(self) -> Task:
-    #     return Task(
-    #         id='answer_evaluation',
-    #         config=self.tasks_config['answer_evaluation'],
-    #         agent=self.evaluator_agent(),
-    #         next_task='report_filing'
-    #     )
+    @task
+    def collect_user_answer(self) -> Task:
+        return Task(
+            config=self.tasks_config['collect_user_answer'],
+            agent=self.tutor_agent(),
+            tools=[user_input_tool],
+            user_input=True
+        )
+
+    @task
+    def answer_evaluation_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['answer_evaluation'],
+            agent=self.tutor_agent(),
+        )
     #
     # @task
     # def report_filing_task(self) -> Task:
@@ -122,5 +122,5 @@ class MathTutorCrew:
             agents=self.agents,  # Automatically created by the @agent decorator
             tasks=self.tasks,  # Automatically created by the @task decorator
             process=Process.sequential,
-            verbose=True
+            verbose=False
         )

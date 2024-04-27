@@ -6,21 +6,21 @@
 
 exercise_generation:
     description: >
-      Generate math exercises that cater to the difficulty level and topics suitable for the learner's age and profile.
+      Generate with math_ex_tool one sequence of numbers for counting exercises with a missing number as a math problem question with answer.
     expected_output: >
-      A diverse set of age-appropriate math exercises, ready for selection and testing.
+      Output from the math_ex_tool, where problem is a string representing the math problem and solution is the correct answer.
 
-#exercise_selection_composition:
-#    description: >
-#      Select from the generated exercises and compose them into a coherent test format, ensuring a balanced coverage of necessary math topics.
-#    expected_output: >
-#      A composed math test, ready for the learner to solve, formatted appropriately for easy understanding and engagement.
-#
-#answer_evaluation:
-#    description: >
-#      Check the answers provided by the learner, evaluate their performance, and provide detailed feedback on each response.
-#    expected_output: >
-#      Detailed feedback and scores for the learner's test responses, highlighting areas of strength and suggestions for improvement.
+collect_user_answer:
+    description: >
+      Present the math problem to the learner and collect their answer using the UserInputTool. Dont show the correct answer in the question.
+    expected_output: >
+      The learner's answer to the math question.
+
+answer_evaluation:
+    description: >
+      Check the learner's answer against the correct answer and provide feedback on their performance.
+    expected_output: >
+      Feedback on the learner's answer, indicating whether it is correct or incorrect.
 #
 #report_filing:
 #    description: >
