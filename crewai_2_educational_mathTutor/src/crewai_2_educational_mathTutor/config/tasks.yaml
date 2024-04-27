@@ -1,18 +1,12 @@
-#profile_creation:
-#    description: >
-#      Gather initial data from the learner and analyze it to create a comprehensive learner profile that adjusts for age and learning style.
-#    expected_output: >
-#      A detailed profile that will guide the generation and selection of exercises tailored to the learner's needs.
-
 exercise_generation:
     description: >
-      Generate with math_ex_tool one sequence of numbers for counting exercises with a missing number as a math problem question with answer.
+      Generate a math problem for the learner to solve using the math_ex_tool.
     expected_output: >
       Output from the math_ex_tool, where problem is a string representing the math problem and solution is the correct answer.
 
 collect_user_answer:
     description: >
-      Present the math problem to the learner and collect their answer using the UserInputTool. Dont show the correct answer in the question.
+      Collect the user's answer to the math problem using the UserInputTool. Dont show the correct answer in the question.
     expected_output: >
       The learner's answer to the math question.
 
@@ -21,9 +15,3 @@ answer_evaluation:
       Check the learner's answer against the correct answer and provide feedback on their performance.
     expected_output: >
       Feedback on the learner's answer, indicating whether it is correct or incorrect.
-#
-#report_filing:
-#    description: >
-#      Compile the results of the evaluation into a detailed report that summarizes the learner's performance, provides insights into their learning progress, and offers recommendations for future learning activities.
-#    expected_output: >
-#      A comprehensive report detailing the learner’s performance, with insights and recommendations formatted as markdown without using '```'.

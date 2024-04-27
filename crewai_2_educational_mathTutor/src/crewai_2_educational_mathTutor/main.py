@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from crewai_2_educational_mathTutor.src.crewai_2_educational_mathTutor.crew import MathTutorCrew
 
 
