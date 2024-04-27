@@ -28,9 +28,9 @@ class MathTutorCrew:
         return Agent(
             config=self.agents_config['Tutor_agent'],
             llm=self.groq_llm,
-            memory=False,
+            memory=True,
             max_iter=3,
-            verbose=True
+            verbose=False
         )
 
     @task
@@ -81,5 +81,5 @@ class MathTutorCrew:
             agents=[self.tutor_agent()],
             tasks=[exercise_task, user_input_task, evaluation_task],
             process=Process.sequential,
-            verbose=True
+            verbose=False
         )
