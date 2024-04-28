@@ -22,11 +22,20 @@ class MathTutorCrew:
     def __init__(self) -> None:
         self.groq_llm = ChatGroq(temperature=0, groq_api_key=groq_api_key, model_name="llama3-70b-8192")
 
-
     @agent
     def tutor_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['Tutor_agent'],
+            llm=self.groq_llm,
+            memory=True,
+            max_iter=3,
+            verbose=False
+        )
+
+    @agent
+    def eval_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['Eval_agent'],
             llm=self.groq_llm,
             memory=True,
             max_iter=3,
@@ -66,8 +75,17 @@ class MathTutorCrew:
     def answer_evaluation_task(self) -> Task:
         return Task(
             config=self.tasks_config['answer_evaluation'],
-            agent=self.tutor_agent(),
+            agent=self.eval_agent(),
+            execute=self.evaluate_answer
         )
+
+    def evaluate_answer(self, inputs):
+        user_response = inputs['user_response']
+        correct_answer = inputs['correct_answer']
+        if user_response == correct_answer:
+            return {'evaluation': 'Correct!'}
+        else:
+            return {'evaluation': 'Incorrect!'}
 
     @crew
     def crew(self) -> Crew:
@@ -78,8 +96,8 @@ class MathTutorCrew:
         evaluation_task = self.answer_evaluation_task()
 
         return Crew(
-            agents=[self.tutor_agent()],
+            agents=[self.tutor_agent(), self.eval_agent()],
             tasks=[exercise_task, user_input_task, evaluation_task],
             process=Process.sequential,
-            verbose=False
+            verbose=True
         )

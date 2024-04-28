@@ -8,7 +8,7 @@ collect_user_answer:
     description: >
       Collect the user's answer to the math problem using the UserInputTool. Dont show the correct answer in the question.
     expected_output: >
-      The learner's answer to the math question.
+      The learner's answer to the math problem.
 
 answer_evaluation:
     description: >
